@@ -1,0 +1,109 @@
+{% extends "users_base.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+
+<style>
+.edit-book-container {
+  max-width: 500px;
+  margin: 50px auto 0 auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.13);
+  padding: 40px 36px 28px 36px;
+  animation: fadeIn 0.5s;
+  border: 1.5px solid #e0e7ff;
+}
+.edit-book-title {
+  text-align: center;
+  margin-bottom: 28px;
+  font-weight: 700;
+  font-size: 1.7em;
+  color: #2563eb;
+  letter-spacing: 1px;
+}
+.edit-book-container .form-group {
+  margin-bottom: 22px;
+}
+.edit-book-container .form-control {
+  border-radius: 6px;
+  font-size: 1.13em;
+  border: 1.5px solid #b6c6e6;
+  box-shadow: none;
+  padding: 10px 14px;
+  background: #f8fafc;
+  transition: border-color 0.2s;
+}
+.edit-book-container .form-control:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #e0e7ff;
+}
+.edit-book-container .btn-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+}
+.edit-book-container .btn-info {
+  flex: 1;
+  font-size: 1.13em;
+  border-radius: 6px;
+  padding: 10px 0;
+  background: linear-gradient(90deg, #2563eb 0%, #4e8cff 100%);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+  transition: background 0.2s;
+}
+.edit-book-container .btn-info:hover {
+  background: linear-gradient(90deg, #174ea6 0%, #2563eb 100%);
+}
+.edit-book-container .btn-cancel {
+  flex: 1;
+  font-size: 1.13em;
+  border-radius: 6px;
+  padding: 10px 0;
+  background: #f3f4f6;
+  border: 1.5px solid #b6c6e6;
+  color: #2563eb;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+  transition: background 0.2s, color 0.2s;
+}
+.edit-book-container .btn-cancel:hover {
+  background: #e0e7ff;
+  color: #174ea6;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+
+
+<div class="edit-book-container">
+  <div class="edit-book-title">Modifier le livre</div>
+  <form action="{% url 'users:books:edit_book' book_id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form  %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {% if field.name == 'cover' and book_cover %}
+          <div style="margin-bottom:8px;">
+            <img src="{{ book_cover.url }}" alt="Image actuelle" style="max-width:120px; max-height:160px; border-radius:6px; box-shadow:0 2px 8px #b6c6e6; margin-bottom:6px;">
+          </div>
+        {% endif %}
+        {{ field|add_class:"form-control" }}
+        {% if field.help_text %}<small class="form-text text-muted">{{ field.help_text }}</small>{% endif %}
+        {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+      </div>
+    {% endfor %}
+    <div class="btn-row">
+      <input type="submit" value="Enregistrer les modifications" class="btn btn-info" />
+      <a href="{% url 'users:books:index' %}" class="btn btn-cancel">Annuler</a>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

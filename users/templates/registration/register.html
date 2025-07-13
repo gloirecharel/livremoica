@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<script src="{% static 'js/register.js' %}"></script>
+<link href="{% static 'css/register.css' %}" rel="stylesheet">
+
+<style>
+.bg-hero-register {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 0;
+  background: url('{% static 'img/livre.jpg' %}') center center/cover no-repeat;
+  filter: grayscale(0.5) brightness(0.55) blur(1px);
+}
+.hero-overlay-register {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 1;
+}
+.hero-content-register {
+  position: relative;
+  z-index: 2;
+}
+</style>
+<div class="bg-hero-register"></div>
+<div class="hero-overlay-register"></div>
+<div class="container-fluid min-vh-100 hero-content-register" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+  <div class="card animate__animated animate__fadeIn" style="width:100%;max-width:520px;z-index:2;background:#fff;border-radius:18px;box-shadow:0 6px 32px rgba(44,62,80,0.13);padding:36px 36px 24px 36px; margin:auto;">
+    <div class="register-title fw-bold text-center" style="font-size:2.1em; color:#337ab7; letter-spacing:1px;">Créer un compte</div>
+    <form method="post" id="register-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="username" class="sr-only">Nom d'utilisateur</label>
+        <input type="text" name="username" id="username" placeholder="Nom d'utilisateur" class="form-control mb-2" required autofocus style="background:#f8fafc;border-radius:8px;">
+        <label for="email" class="sr-only">Email</label>
+        <input type="email" name="email" id="email" placeholder="Email" class="form-control mb-2" required style="background:#f8fafc;border-radius:8px;">
+        <!-- Prénom et nom sont désormais automatiques ou non demandés à l'utilisateur -->
+        <label for="address" class="sr-only">Adresse</label>
+        <input type="text" name="address" id="address" placeholder="Adresse" class="form-control mb-2" required style="background:#f8fafc;border-radius:8px;">
+        <label for="password" class="sr-only">Mot de passe</label>
+        <input type="password" name="password" id="password" placeholder="Mot de passe" class="form-control mb-2" required style="background:#f8fafc;border-radius:8px;">
+        <label for="confirmpassword" class="sr-only">Confirmer le mot de passe</label>
+        <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirmer le mot de passe" class="form-control mb-2" required style="background:#f8fafc;border-radius:8px;">
+      </div>
+      <button type="submit" class="btn btn-info w-100" style="border-radius:8px;font-weight:600;font-size:1.1em;">S'inscrire</button>
+    </form>
+    <div class="register-footer">
+    Vous avez déjà un compte ? <a href="{% url 'users:login' %}">Connectez-vous</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

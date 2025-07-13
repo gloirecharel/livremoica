@@ -1,0 +1,328 @@
+{% extends "users_base.html" %}
+
+{% block content %}
+<style>
+    body {
+    background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+    min-height: 100vh;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(120deg, rgba(16,28,58,0.68) 0%, rgba(44,62,80,0.62) 100%),
+      url('/static/img/livre1.webp') center center/cover no-repeat,
+      linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+    opacity: 1;
+    pointer-events: none;
+  }
+.add-book-container {
+  max-width: 600px;
+  margin: 40px auto 0 auto;
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  padding: 40px 40px 32px 40px;
+  animation: slideInUp 0.6s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.add-book-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #337ab7, #5bc0de, #337ab7);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.add-book-title {
+  text-align: center;
+  margin-bottom: 32px;
+  font-weight: 700;
+  font-size: 2em;
+  color: #2c3e50;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.add-book-title::before {
+  content: "📚";
+  font-size: 1.2em;
+}
+
+.form-group {
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+  display: block;
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.add-book-container .form-control {
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 1em;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.add-book-container .form-control:focus {
+  border-color: #337ab7;
+  box-shadow: 0 0 0 3px rgba(51, 122, 183, 0.1);
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.add-book-container .form-control::placeholder {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.add-book-container textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+}
+
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+.file-input-wrapper input[type=file] {
+  position: absolute;
+  left: -9999px;
+}
+
+.file-input-display {
+  display: block;
+  padding: 14px 16px;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #6c757d;
+}
+
+.file-input-display:hover {
+  border-color: #337ab7;
+  background-color: #e3f2fd;
+  color: #337ab7;
+}
+
+.file-input-display.has-file {
+  border-color: #28a745;
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.file-input-display::before {
+  content: "📁 ";
+  font-size: 1.2em;
+  margin-right: 8px;
+}
+
+.add-book-container .btn-info {
+  width: 100%;
+  font-size: 1.1em;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 16px 0;
+  border: none;
+  background: linear-gradient(135deg, #337ab7 0%, #5bc0de 100%);
+  color: white;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 16px rgba(51, 122, 183, 0.3);
+  margin-top: 24px;
+}
+
+.add-book-container .btn-info:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(51, 122, 183, 0.4);
+  background: linear-gradient(135deg, #2e6da4 0%, #46b8da 100%);
+}
+
+.add-book-container .btn-info:active {
+  transform: translateY(0);
+}
+
+.add-book-container .alert {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  color: #721c24;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1em;
+  margin-bottom: 24px;
+  padding: 16px;
+  border-left: 4px solid #dc3545;
+  animation: shake 0.5s ease-in-out;
+}
+
+.character-count {
+  font-size: 0.8em;
+  color: #6c757d;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.character-count.warning {
+  color: #fd7e14;
+}
+
+.character-count.danger {
+  color: #dc3545;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@media (max-width: 768px) {
+  .add-book-container {
+    margin: 20px;
+    padding: 24px;
+    max-width: none;
+  }
+  
+  .add-book-title {
+    font-size: 1.6em;
+  }
+}
+</style>
+
+<div class="add-book-container">
+  <div class="add-book-title">Ajouter un livre</div>
+  
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-danger">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+  
+  <form method="post" action="{% url 'users:books:add_book' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label for="title" class="form-label">Titre du livre</label>
+      <input type="text" class="form-control" name="title" id="title" placeholder="Entrez le titre du livre" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="author" class="form-label">Auteur</label>
+      <input type="text" class="form-control" name="author" id="author" placeholder="Nom de l'auteur" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="summary" class="form-label">Résumé</label>
+      <textarea rows="5" class="form-control" name="summary" id="summary" placeholder="Un résumé captivant de ce livre (optionnel)" maxlength="100"></textarea>
+      <div class="character-count" id="charCount">0/100 caractères</div>
+    </div>
+    
+    <div class="form-group">
+      <label for="cover" class="form-label">Image de couverture</label>
+      <div class="file-input-wrapper">
+        <input type="file" name="cover" id="cover" accept="image/*">
+        <label for="cover" class="file-input-display" id="fileDisplay">
+          Choisir une image de couverture (optionnel)
+        </label>
+      </div>
+    </div>
+    
+    <input type="submit" value="Ajouter le livre" class="btn btn-info" />
+  </form>
+</div>
+
+<script>
+// Gestion du compteur de caractères
+document.getElementById('summary').addEventListener('input', function() {
+  const maxLength = 100;
+  const currentLength = this.value.length;
+  const counter = document.getElementById('charCount');
+  
+  counter.textContent = `${currentLength}/${maxLength} caractères`;
+  
+  if (currentLength > maxLength * 0.8) {
+    counter.classList.add('warning');
+  } else {
+    counter.classList.remove('warning');
+  }
+  
+  if (currentLength >= maxLength) {
+    counter.classList.add('danger');
+    counter.classList.remove('warning');
+  } else {
+    counter.classList.remove('danger');
+  }
+});
+
+// Gestion de l'affichage du fichier sélectionné
+document.getElementById('cover').addEventListener('change', function() {
+  const fileDisplay = document.getElementById('fileDisplay');
+  const fileName = this.files[0] ? this.files[0].name : '';
+  
+  if (fileName) {
+    fileDisplay.textContent = `Fichier sélectionné: ${fileName}`;
+    fileDisplay.classList.add('has-file');
+  } else {
+    fileDisplay.textContent = 'Choisir une image de couverture (optionnel)';
+    fileDisplay.classList.remove('has-file');
+  }
+});
+</script>
+
+{% endblock %}

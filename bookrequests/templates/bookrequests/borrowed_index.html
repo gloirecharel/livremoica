@@ -1,0 +1,89 @@
+{% extends "users_base.html" %}
+{% load request_extras %}
+{% load static %}
+
+
+<script type="text/javascript" src="{% static "bootstrap.min.js" %}"></script>
+<script type="text/javascript" src="{% static "bookrequests/borrowed-index.js" %}"></script>
+
+{% block content %}
+
+{# tabs for grouping requests based on status #}
+{% include "bookrequests/_request_tabs.html" %}
+
+
+<style>
+.request-list-group {
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 24px 18px 18px 18px;
+  margin-bottom: 20px;
+  min-height: 120px;
+  animation: fadeIn 0.5s;
+}
+.request-list-group .list-group-item {
+  background: #f8f9fa;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.request-list-group .list-group-item:hover {
+  background: #e7f1fa;
+  box-shadow: 0 2px 8px rgba(51,122,183,0.10);
+}
+.request-list-group .alert {
+  background: #e7f1fa;
+  color: #337ab7;
+  border: none;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 1.1em;
+  margin-top: 18px;
+}
+</style>
+
+<div class="tab-content request-list-group">
+   <div class="tab-pane active" id="pending">
+	   {% for r in requests|pending %}
+		   <div class="list-group-item">
+			   {% show_request_borrower r %}
+		   </div>
+	   {% empty %}
+		   <div class="alert">Vous n'avez actuellement aucun livre emprunté</div>
+	   {% endfor %}
+   </div>
+   <div class="tab-pane" id="all">
+	   {% for r in requests %}
+		   <div class="list-group-item">
+			   {% show_request_borrower r %}
+		   </div>
+	   {% empty %}
+		   <div class="alert">Vous n'avez pas encore emprunté de livres. Essayez de rechercher un livre !</div>
+	   {% endfor %}
+   </div>
+   <div class="tab-pane" id="completed">
+	   {% for r in requests|completed %}
+		   <div class="list-group-item">
+			   {% show_request_borrower r %}
+		   </div>
+	   {% empty %}
+		   <div class="alert">Vous n'avez pas encore rendu de livres empruntés</div>
+	   {% endfor %}
+   </div>
+   <div class="tab-pane" id="transit">
+	   {% for r in requests|intransit %}
+		   <div class="list-group-item">
+			   {% show_request_borrower r %}
+		   </div>
+	   {% empty %}
+		   <div class="alert">Aucun de vos livres demandés n'est actuellement avec un coursier</div>
+	   {% endfor %}
+   </div>
+</div>
+
+	
+
+{% endblock content %}

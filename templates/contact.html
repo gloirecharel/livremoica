@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<style>
+.bg-hero-contact {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 0;
+  background: url('{% static 'img/livre.jpg' %}') center center/cover no-repeat;
+  filter: grayscale(0.5) brightness(0.55) blur(1px);
+}
+.hero-overlay-contact {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 1;
+}
+.hero-content-contact {
+  position: relative;
+  z-index: 2;
+}
+</style>
+<div class="bg-hero-contact"></div>
+<div class="hero-overlay-contact"></div>
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 fade-in hero-content-contact" style="min-height: 100vh;">
+    <div class="w-100 text-center animate__animated animate__fadeIn" style="color: #fff; text-shadow: 0 2px 16px #000, 0 1px 0 #222;">
+        <h1 class="fw-bold mb-3 animate__animated animate__fadeInDown" style="color: #fff; font-size:2.2em;">
+            <i class="bi bi-envelope-at-fill me-2"></i>
+            <span id="typing-contact-title"></span>
+        </h1>
+        <p class="lead mb-4 animate__animated animate__fadeInUp" style="font-size:1.18em; min-height: 60px;">
+            <span id="typing-contact-desc"></span>
+        </p>
+        <div class="alert alert-info animate__animated animate__fadeInUp animate__delay-1s" role="alert" style="background:rgba(0,0,0,0.25); color:#fff; border:none;">
+            <strong>Contexte :</strong> Les bibliothèques personnelles débordent. Pourquoi ne pas prêter entre voisins&nbsp;?
+        </div>
+        <div class="alert alert-warning animate__animated animate__fadeInUp animate__delay-2s" role="alert" style="background:rgba(0,0,0,0.25); color:#fff; border:none;">
+            <strong>Problème à résoudre :</strong><br>
+            <ul class="mb-0">
+                <li>Créer une base de livres disponibles par utilisateur.</li>
+                <li>Proposer des échanges, gérer les prêts.</li>
+            </ul>
+        </div>
+        <div class="text-center mt-4 mb-2">
+            <a href="mailto:gloirekombo03@gmail.com" class="btn btn-lg btn-primary px-5 shadow animate__animated animate__pulse animate__infinite" id="contact-mail">
+                <i class="bi bi-envelope-fill me-2"></i>gloirekombo03@gmail.com
+            </a>
+        </div>
+        <div class="text-center text-muted small mt-2 animate__animated animate__fadeInUp animate__delay-2s" style="color:#e0e7ff;">
+            <span>Nous vous répondrons dans les plus brefs délais.</span>
+        </div>
+    </div>
+</div>
+<script>
+// Animation bouton contact et effet machine à écrire
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('contact-mail');
+    btn.addEventListener('mouseenter', () => btn.classList.add('animate__tada'));
+    btn.addEventListener('mouseleave', () => btn.classList.remove('animate__tada'));
+
+    // Typing effect
+    const contactTitle = "Contact LivreMoiÇa";
+    const contactDesc = "Vous souhaitez nous contacter ou en savoir plus sur LivreMoiÇa ?";
+    const titleElem = document.getElementById('typing-contact-title');
+    const descElem = document.getElementById('typing-contact-desc');
+    let titleIdx = 0, descIdx = 0;
+    function typeTitle() {
+        if (titleIdx < contactTitle.length) {
+            titleElem.innerHTML += contactTitle[titleIdx] === '\n' ? '<br>' : contactTitle[titleIdx];
+            titleIdx++;
+            setTimeout(typeTitle, 55);
+        } else {
+            setTimeout(typeDesc, 400);
+        }
+    }
+    function typeDesc() {
+        if (descIdx < contactDesc.length) {
+            descElem.innerHTML += contactDesc[descIdx] === '\n' ? '<br>' : contactDesc[descIdx];
+            descIdx++;
+            setTimeout(typeDesc, 28);
+        }
+    }
+    typeTitle();
+});
+</script>
+{% endblock content %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.notfound-container {
+  max-width: 500px;
+  margin: 80px auto 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  padding: 48px 36px 36px 36px;
+  text-align: center;
+  animation: fadeIn 0.7s;
+}
+.notfound-title {
+  font-size: 2.5em;
+  color: #d9534f;
+  font-weight: 700;
+  margin-bottom: 18px;
+  letter-spacing: 2px;
+}
+.notfound-message {
+  font-size: 1.2em;
+  color: #444;
+  margin-bottom: 24px;
+}
+.notfound-home {
+  display: inline-block;
+  background: #337ab7;
+  color: #fff;
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-size: 1.08em;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(51,122,183,0.10);
+}
+.notfound-home:hover {
+  background: #23527c;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(51,122,183,0.18);
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+
+<div class="notfound-container">
+  <div class="notfound-title">404</div>
+  <div class="notfound-message">La page que vous avez demandée est introuvable</div>
+  <a href="/" class="notfound-home">Retour à l'accueil</a>
+</div>
+
+<script>
+// Animation d'apparition pour le bouton
+document.addEventListener('DOMContentLoaded', function() {
+  const btn = document.querySelector('.notfound-home');
+  if (btn) {
+    btn.style.opacity = 0;
+    btn.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      btn.style.transition = 'opacity 0.6s, transform 0.6s';
+      btn.style.opacity = 1;
+      btn.style.transform = 'translateY(0)';
+    }, 600);
+  }
+});
+</script>
+
+{% endblock content %}

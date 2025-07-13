@@ -1,0 +1,148 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>LivreMoiça</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'starter-template.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+    body {
+      background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+      min-height: 100vh;
+    }
+    .navbar-inverse {
+      border-radius: 0 0 18px 18px;
+      box-shadow: 0 2px 12px rgba(44,62,80,0.08);
+      background: #2a3d66;
+      border: none;
+      padding-top: 2px;
+      padding-bottom: 2px;
+    }
+    .navbar-inverse .navbar-brand {
+      font-weight: bold;
+      color: #4e8cff !important;
+      letter-spacing: 1px;
+      font-size: 1.5em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+    .navbar-inverse .navbar-brand i {
+      color: #4e8cff;
+      font-size: 1.2em;
+    }
+    .navbar-inverse .navbar-brand:hover {
+      color: #e7f1fa !important;
+    }
+    .navbar-inverse .nav > li > a {
+      color: #fff !important;
+      font-weight: 500;
+      transition: color 0.2s;
+      font-size: 1.08em;
+      border-radius: 8px;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+    .navbar-inverse .nav > li > a:hover {
+      color: #4e8cff !important;
+      background: rgba(78,140,255,0.08);
+    }
+    .courier-main {
+      margin-top: 70px;
+      animation: fadeIn 0.7s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    </style>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top animate__animated animate__fadeInDown">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><i class="bi bi-truck"></i>LivreMoiça – Coursier</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'courier:logout' %}"><i class="bi bi-box-arrow-right me-1"></i>Déconnexion</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+    <div class="container courier-main">
+      <div class="starter-template">
+        <div class="">
+          {% if messages %}
+            {% for msg in messages %}
+              <div class="alert alert-{{msg.tags}}">{{ msg }}</div>  
+            {% endfor %}
+          {% endif %}
+          {% block content %} 
+          {% endblock %}
+        </div>
+      </div>
+    </div><!-- /.container -->
+
+    <script>
+    // Animation d'apparition pour les alertes
+    document.addEventListener('DOMContentLoaded', function() {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach((el, i) => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+          el.style.transition = 'opacity 0.5s, transform 0.5s';
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        }, 100 + i * 120);
+      });
+    });
+    </script>
+    
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>
+
+
+
+
+

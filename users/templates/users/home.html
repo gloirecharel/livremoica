@@ -1,0 +1,169 @@
+{% extends "users_base.html" %}
+
+{% block content %}
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+<style>
+  body {
+    background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+    min-height: 100vh;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(120deg, rgba(16,28,58,0.68) 0%, rgba(44,62,80,0.62) 100%),
+      url('/static/img/livre.jpg') center center/cover no-repeat,
+      linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+    opacity: 1;
+    pointer-events: none;
+  }
+  .home-container {
+    max-width: 600px;
+    margin: 70px auto 0 auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 6px 32px rgba(44,62,80,0.10);
+    padding: 48px 40px 36px 40px;
+    text-align: center;
+    animation: fadeIn 0.7s;
+  }
+  .home-title {
+    font-size: 2.2em;
+    color: #2a3d66;
+    font-weight: 700;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .home-title i {
+    color: #4e8cff;
+    font-size: 1.2em;
+  }
+  .home-welcome {
+    font-size: 1.18em;
+    color: #444;
+    margin-bottom: 28px;
+    background: #e7f1fa;
+    border-radius: 8px;
+    padding: 12px 0;
+    box-shadow: 0 2px 8px rgba(78,140,255,0.04);
+    animation: fadeInUp 1s;
+  }
+  .home-links {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+  }
+  .home-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #4e8cff;
+    color: #fff !important;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 28px;
+    font-size: 1.08em;
+    font-weight: 500;
+    box-shadow: 0 2px 12px rgba(44,62,80,0.08);
+    transition: background 0.2s, transform 0.2s;
+    text-decoration: none;
+    cursor: pointer;
+    animation: fadeInUp 1.2s;
+  }
+  .home-link-btn:hover {
+    background: #337ab7;
+    transform: translateY(-2px) scale(1.04);
+    text-decoration: none;
+  }
+  @media (max-width: 767px) {
+    .home-container {
+      max-width: 98vw;
+      margin: 18px 2vw 0 2vw;
+      padding: 18px 6vw 18px 6vw;
+      border-radius: 10px;
+    }
+    .home-title {
+      font-size: 1.25em;
+      gap: 6px;
+    }
+    .home-welcome {
+      font-size: 1em;
+      padding: 8px 0;
+      border-radius: 6px;
+    }
+    .home-links {
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .home-link-btn {
+      font-size: 0.98em;
+      padding: 10px 10px;
+      border-radius: 7px;
+      min-width: 120px;
+      justify-content: center;
+    }
+  }
+  @media (max-width: 480px) {
+    .home-container {
+      padding: 8px 2vw 8px 2vw;
+      border-radius: 6px;
+    }
+    .home-title {
+      font-size: 1em;
+    }
+    .home-link-btn {
+      font-size: 0.93em;
+      padding: 8px 4px;
+      border-radius: 5px;
+      min-width: 90px;
+    }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+
+<div class="home-container animate__animated animate__fadeInDown">
+  <div class="home-title"><i class="bi bi-house-door-fill"></i>Bienvenue sur <span style="color:#4e8cff">LivreMoiÇa</span></div>
+  <div class="home-welcome animate__animated animate__fadeInUp">Bonjour, <b>{{ user }}</b> ! Ceci est votre page d'accueil.</div>
+  <div class="home-links">
+    <a href="{% url 'users:books:index' %}" class="home-link-btn animate__animated animate__fadeInUp" style="animation-delay:0.2s"><i class="bi bi-journal-bookmark-fill"></i>Voir mes livres</a>
+    <a href="{% url 'users:requests:borrowed' %}" class="home-link-btn animate__animated animate__fadeInUp" style="animation-delay:0.3s"><i class="bi bi-arrow-down-circle-fill"></i>Livres empruntés</a>
+    <a href="{% url 'users:requests:lent' %}" class="home-link-btn animate__animated animate__fadeInUp" style="animation-delay:0.4s"><i class="bi bi-arrow-up-circle-fill"></i>Livres prêtés</a>
+    <a href="{% url 'users:books:add_book' %}" class="home-link-btn animate__animated animate__fadeInUp" style="animation-delay:0.5s"><i class="bi bi-plus-circle-fill"></i>Ajouter un livre</a>
+  </div>
+</div>
+
+<script>
+// Animation boutons liens
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.home-link-btn').forEach(function(btn) {
+    btn.addEventListener('mouseenter', function() {
+      btn.classList.add('animate__tada');
+    });
+    btn.addEventListener('mouseleave', function() {
+      btn.classList.remove('animate__tada');
+    });
+  });
+});
+</script>
+
+{% endblock content %}

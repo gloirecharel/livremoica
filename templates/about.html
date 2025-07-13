@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+
+<style>
+.bg-hero-about {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 0;
+  background: url('{% static 'img/livre.jpg' %}') center center/cover no-repeat;
+  filter: grayscale(0.5) brightness(0.55) blur(1px);
+}
+.hero-overlay-about {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 1;
+}
+.hero-content-about {
+  position: relative;
+  z-index: 2;
+}
+</style>
+<div class="bg-hero-about"></div>
+<div class="hero-overlay-about"></div>
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 fade-in hero-content-about" style="min-height: 100vh;">
+    <div class="w-100 text-center animate__animated animate__fadeIn" style="color: #fff; text-shadow: 0 2px 16px #000, 0 1px 0 #222;">
+        <img src="/static/img/Bookzilla.svg" alt="Logo Bookzilla" style="height: 80px; filter: drop-shadow(0 2px 8px #000);" class="mb-3 animate__animated animate__bounceIn"/>
+        <h1 class="fw-bold mb-3 animate__animated animate__fadeInDown" style="color: #fff; font-size:2.2em;">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            <span id="typing-about-title"></span>
+        </h1>
+        <p class="lead mb-4 animate__animated animate__fadeInUp" style="font-size:1.18em; min-height: 60px;">
+            <span id="typing-about-desc"></span>
+        </p>
+        <ul class="list-group list-group-flush mb-4 animate__animated animate__fadeInUp animate__delay-1s" style="background:transparent;">
+            <li class="list-group-item bg-transparent text-white" style="background:rgba(0,0,0,0.25)!important;"><i class="bi bi-book-half me-2 text-primary"></i>Catalogue de livres riche et évolutif</li>
+            <li class="list-group-item bg-transparent text-white" style="background:rgba(0,0,0,0.25)!important;"><i class="bi bi-people-fill me-2 text-success"></i>Communauté conviviale et solidaire</li>
+            <li class="list-group-item bg-transparent text-white" style="background:rgba(0,0,0,0.25)!important;"><i class="bi bi-arrow-left-right me-2 text-warning"></i>Prêt et emprunt facilités, gestion intuitive</li>
+            <li class="list-group-item bg-transparent text-white" style="background:rgba(0,0,0,0.25)!important;"><i class="bi bi-shield-check me-2 text-info"></i>Sécurité et respect de la vie privée</li>
+        </ul>
+        <div class="text-center mb-3">
+            <a href="/" class="btn btn-lg btn-primary px-5 shadow animate__animated animate__pulse animate__infinite" id="retour-accueil">
+                <i class="bi bi-house-door-fill me-2"></i>Retour à l'accueil
+            </a>
+        </div>
+        <div class="text-center text-muted small mt-2 animate__animated animate__fadeInUp animate__delay-2s" style="color:#e0e7ff;">
+            <span>Version 2025 &copy; LivreMoiça. Tous droits réservés.</span>
+        </div>
+    </div>
+</div>
+<script>
+// Animation bouton retour et effet machine à écrire
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('retour-accueil');
+    btn.addEventListener('mouseenter', () => btn.classList.add('animate__tada'));
+    btn.addEventListener('mouseleave', () => btn.classList.remove('animate__tada'));
+
+    // Typing effect
+    const aboutTitle = "À propos de LivreMoiÇa";
+    const aboutDesc = "LivreMoiÇa est une plateforme moderne et collaborative de prêt de livres entre particuliers.\nPartagez, empruntez, découvrez !";
+    const titleElem = document.getElementById('typing-about-title');
+    const descElem = document.getElementById('typing-about-desc');
+    let titleIdx = 0, descIdx = 0;
+    function typeTitle() {
+        if (titleIdx < aboutTitle.length) {
+            titleElem.innerHTML += aboutTitle[titleIdx] === '\n' ? '<br>' : aboutTitle[titleIdx];
+            titleIdx++;
+            setTimeout(typeTitle, 55);
+        } else {
+            setTimeout(typeDesc, 400);
+        }
+    }
+    function typeDesc() {
+        if (descIdx < aboutDesc.length) {
+            descElem.innerHTML += aboutDesc[descIdx] === '\n' ? '<br>' : aboutDesc[descIdx];
+            descIdx++;
+            setTimeout(typeDesc, 28);
+        }
+    }
+    typeTitle();
+});
+</script>
+
+{% endblock content %}

@@ -1,0 +1,120 @@
+{% extends "users_base.html" %}
+
+{# load template tags #}
+{% load static %}
+{% load book_extras %}
+
+{% block content %}
+
+<style>
+body {
+  background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+  min-height: 100vh;
+  position: relative;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(120deg, rgba(16,28,58,0.68) 0%, rgba(44,62,80,0.62) 100%),
+    url('/static/img/livre.jpg') center center/cover no-repeat,
+    linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+  opacity: 1;
+  pointer-events: none;
+}
+.books-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.books-header h4 {
+  margin: 0;
+  color: #337ab7;
+  font-weight: 600;
+}
+.add-book-btn {
+  background: #337ab7;
+  color: #fff !important;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 18px;
+  font-size: 1.08em;
+  font-weight: 500;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 4px rgba(51,122,183,0.10);
+  text-decoration: none;
+  display: inline-block;
+}
+.add-book-btn:hover {
+  background: #23527c;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(51,122,183,0.18);
+}
+.books-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 0;
+}
+.books-list .col-md-4 {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 340px;
+}
+.empty-books {
+  background: #e7f1fa;
+  color: #337ab7;
+  border-radius: 8px;
+  padding: 24px 18px;
+  text-align: center;
+  font-size: 1.15em;
+  margin-top: 32px;
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+
+<div class="books-header">
+  <h4>Vos livres</h4>
+  <a href="{% url 'users:books:add_book' %}" class="add-book-btn"><span class="glyphicon glyphicon-plus"></span> Ajouter un livre</a>
+</div>
+
+<div class="books-list">
+  {% for book in book_list  %}
+  <div class="col-md-4">
+    {% show_book_private book %}
+  </div>
+  {% empty %}
+  <div class="empty-books">
+    Vous n'avez pas encore ajouté de livres.<br>
+    <a href="{% url 'users:books:add_book' %}" class="add-book-btn" style="margin-top:12px;"><span class="glyphicon glyphicon-plus"></span> Ajouter un livre maintenant !</a>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+// Animation d'apparition pour chaque livre
+document.addEventListener('DOMContentLoaded', function() {
+  const books = document.querySelectorAll('.books-list .col-md-4');
+  books.forEach((el, i) => {
+  el.style.opacity = 0;
+  el.style.transform = 'translateY(30px)';
+  setTimeout(() => {
+    el.style.transition = 'opacity 0.5s, transform 0.5s';
+    el.style.opacity = 1;
+    el.style.transform = 'translateY(0)';
+  }, 100 + i * 120);
+  });
+});
+</script>
+
+{% endblock content %}
+
+  
+

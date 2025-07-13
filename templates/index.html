@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+
+<style>
+.bg-hero {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 0;
+  background: url('{% static 'img/livre.jpg' %}') center center/cover no-repeat;
+  filter: grayscale(0.4) brightness(0.45) blur(1.5px) saturate(1.2);
+}
+.hero-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: linear-gradient(120deg, rgba(16,28,58,0.82) 0%, rgba(44,62,80,0.78) 100%);
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+.main-logo-glow {
+  filter: drop-shadow(0 0 24px #4e8cff) drop-shadow(0 2px 8px #000);
+}
+.hero-title {
+  color: #fff;
+  font-size: 2.7em;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 32px #337ab7, 0 2px 8px #000;
+  background: linear-gradient(90deg, #4e8cff 20%, #fff 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-desc {
+  font-size: 1.35em;
+  min-height: 60px;
+  color: #e0e7ff;
+  text-shadow: 0 2px 16px #000, 0 1px 0 #222;
+  margin-bottom: 1.5rem;
+}
+.list-group-flush .list-group-item {
+  background: rgba(30,44,80,0.32)!important;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 1.13em;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+  padding: 14px 18px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.list-group-flush .list-group-item i {
+  font-size: 1.25em;
+}
+#btn-inscription {
+  font-size: 1.22em;
+  padding: 16px 38px;
+  border-radius: 12px;
+  font-weight: 700;
+  box-shadow: 0 4px 24px #4e8cff44, 0 2px 8px #0002;
+  background: linear-gradient(90deg, #4e8cff 60%, #337ab7 100%);
+  border: none;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+#btn-inscription:hover {
+  background: linear-gradient(90deg, #337ab7 0%, #4e8cff 100%);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 6px 32px #4e8cff55, 0 2px 8px #0003;
+}
+</style>
+<div class="bg-hero"></div>
+<div class="hero-overlay"></div>
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100 fade-in hero-content" style="min-height: 100vh;">
+    <div class="w-100 text-center animate__animated animate__fadeIn" style="color: #fff; text-shadow: 0 2px 16px #000, 0 1px 0 #222;">
+       
+        <h1 class="fw-bold mb-3 animate__animated animate__fadeInDown hero-title">
+            <i class="bi bi-book-half me-2"></i>
+            <span id="typing-title"></span>
+        </h1>
+        <p class="lead mb-4 animate__animated animate__fadeInUp hero-desc">
+            <span id="typing-desc"></span>
+        </p>
+        <ul class="list-group list-group-flush mb-4 animate__animated animate__fadeInUp animate__delay-1s" style="background:transparent;">
+            <li class="list-group-item bg-transparent text-white" style="background:rgba(0,0,0,0.25)!important;"><i class="bi bi-bookmark-star-fill me-2 text-primary"></i>Ajoutez vos livres à votre bibliothèque</li>
+            <li class="list-group-item bg-transparent text-white" style="background:rgba(0,0,0,0.25)!important;"><i class="bi bi-arrow-left-right me-2 text-success"></i>Proposez des échanges et gérez vos prêts</li>
+            <li class="list-group-item bg-transparent text-white" style="background:rgba(0,0,0,0.25)!important;"><i class="bi bi-people-fill me-2 text-warning"></i>Rejoignez une communauté conviviale</li>
+        </ul>
+        <div class="text-center mt-3">
+            <a href="{% url 'users:register' %}" class="btn btn-lg btn-primary px-5 shadow animate__animated animate__pulse animate__infinite" id="btn-inscription" style="font-size:1.2em;">
+                <i class="bi bi-person-plus-fill me-2"></i>Inscription gratuite
+            </a>
+        </div>
+        
+    </div>
+</div>
+<script>
+// Animation bouton inscription
+document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('btn-inscription');
+    btn.addEventListener('mouseenter', () => btn.classList.add('animate__tada'));
+    btn.addEventListener('mouseleave', () => btn.classList.remove('animate__tada'));
+
+    // Effet machine à écrire pour le titre et la description
+    const titleText = "Bienvenue sur LivreMoiÇa";
+    const descText = "La plateforme moderne et collaborative pour prêter et emprunter des livres entre particuliers.\nPartagez, empruntez, découvrez !";
+    const titleElem = document.getElementById('typing-title');
+    const descElem = document.getElementById('typing-desc');
+    let titleIdx = 0, descIdx = 0;
+
+    function typeTitle() {
+        if (titleIdx < titleText.length) {
+            titleElem.innerHTML += titleText[titleIdx] === '\n' ? '<br>' : titleText[titleIdx];
+            titleIdx++;
+            setTimeout(typeTitle, 55);
+        } else {
+            setTimeout(typeDesc, 400);
+        }
+    }
+    function typeDesc() {
+        if (descIdx < descText.length) {
+            descElem.innerHTML += descText[descIdx] === '\n' ? '<br>' : descText[descIdx];
+            descIdx++;
+            setTimeout(typeDesc, 28);
+        }
+    }
+    typeTitle();
+});
+</script>
+{% endblock content %}
+

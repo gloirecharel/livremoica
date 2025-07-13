@@ -1,0 +1,78 @@
+{% extends "courier_base.html" %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+
+<style>
+.courier-login-container {
+  max-width: 400px;
+  margin: 80px auto 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+  padding: 36px 36px 24px 36px;
+  text-align: center;
+  animation: fadeIn 0.5s;
+}
+.courier-login-title {
+  font-size: 1.3em;
+  color: #337ab7;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.courier-login-container .form-control {
+  border-radius: 4px;
+  margin-bottom: 18px;
+  font-size: 1.1em;
+}
+.courier-login-container .btn-info {
+  width: 100%;
+  font-size: 1.1em;
+  border-radius: 4px;
+  padding: 10px 0;
+}
+.courier-login-container .courier-login-footer {
+  margin-top: 18px;
+  color: #888;
+  font-size: 0.98em;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+
+<div class="courier-login-container">
+  <div class="courier-login-title">Connexion coursier</div>
+  <div class="courier-login-footer">
+	Si vous n'êtes pas un coursier, rendez-vous sur la <a href="{% url 'index' %}">page de connexion principale</a>.
+  </div>
+  <form action="{% url 'courier:login' %}" method="post" style="margin-top:18px;">
+	{% csrf_token %}
+	{% for field in form  %}
+	  <div class="form-group">
+		{{ field|add_class:"form-control" }}
+	  </div>
+	{% endfor %}
+	<input type="submit" value="Connexion" class="btn btn-info" />
+  </form>
+</div>
+
+<script>
+// Animation d'apparition pour le formulaire
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.querySelector('.courier-login-container');
+  if (container) {
+	container.style.opacity = 0;
+	container.style.transform = 'translateY(30px)';
+	setTimeout(() => {
+	  container.style.transition = 'opacity 0.5s, transform 0.5s';
+	  container.style.opacity = 1;
+	  container.style.transform = 'translateY(0)';
+	}, 150);
+  }
+});
+</script>
+
+{% endblock content %}

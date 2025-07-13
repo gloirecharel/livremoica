@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+.logout-container {
+  max-width: 400px;
+  margin: 80px auto 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 36px 36px 24px 36px;
+  text-align: center;
+}
+.logout-container .logout-title {
+  font-size: 1.5em;
+  color: #337ab7;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.logout-container .logout-footer {
+  margin-top: 18px;
+  color: #888;
+  font-size: 1em;
+}
+</style>
+
+<div class="logout-container">
+  <div class="logout-title">Déconnexion réussie</div>
+  <div>Vous avez été déconnecté avec succès.</div>
+  <div class="logout-footer">
+    <a href="{% url 'users:login' %}">Se reconnecter</a> ou <a href="{% url 'index' %}">Retour à l'accueil</a>
+  </div>
+</div>
+
+{% endblock content %}

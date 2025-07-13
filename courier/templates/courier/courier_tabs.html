@@ -1,0 +1,48 @@
+<style>
+.courier-tabs {
+  background: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 0 10px;
+}
+.courier-tabs > li > a {
+  color: #337ab7;
+  font-weight: 500;
+  font-size: 1.08em;
+  border-radius: 8px 8px 0 0;
+  transition: background 0.2s, color 0.2s;
+  background: transparent;
+}
+.courier-tabs > li.active > a, .courier-tabs > li > a:hover {
+  background: #e7f1fa !important;
+  color: #23527c !important;
+  border: 1px solid #337ab7;
+  border-bottom: none;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+</style>
+
+<ul class="nav nav-tabs courier-tabs" id="tabs">
+  <li class="active"><a href="#pending" data-toggle="tab"><span class="glyphicon glyphicon-time"></span> En attente</a></li>
+  <li><a href="#completed" data-toggle="tab"><span class="glyphicon glyphicon-ok"></span> Terminées</a></li>
+  <li><a href="#all" data-toggle="tab"><span class="glyphicon glyphicon-list-alt"></span> Toutes</a></li>
+</ul>
+
+<script>
+// Animation d'apparition pour les onglets
+document.addEventListener('DOMContentLoaded', function() {
+  const tabs = document.querySelectorAll('.courier-tabs li');
+  tabs.forEach((el, i) => {
+    el.style.opacity = 0;
+    el.style.transform = 'translateY(-20px)';
+    setTimeout(() => {
+      el.style.transition = 'opacity 0.5s, transform 0.5s';
+      el.style.opacity = 1;
+      el.style.transform = 'translateY(0)';
+    }, 100 + i * 120);
+  });
+});
+</script>

@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<style>
+.bg-hero-login {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 0;
+  background: url('{% static 'img/livre.jpg' %}') center center/cover no-repeat;
+  filter: grayscale(0.5) brightness(0.55) blur(1px);
+}
+.hero-overlay-login {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 1;
+}
+.hero-content-login {
+  position: relative;
+  z-index: 2;
+}
+</style>
+<div class="bg-hero-login"></div>
+<div class="hero-overlay-login"></div>
+<div class="container-fluid min-vh-100 hero-content-login" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+  <div class="card animate__animated animate__fadeIn" style="width:100%;max-width:410px;z-index:2;background:#fff;border-radius:18px;box-shadow:0 6px 32px rgba(44,62,80,0.13);padding:32px 32px 24px 32px; margin:auto;">
+    <div class="login-title fw-bold text-center" style="font-size:2.1em; color:#337ab7; letter-spacing:1px;">Connexion à votre compte</div>
+    <form method="post" action="{% url 'users:login' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <input type="text" class="form-control" name="username" id="username" placeholder="Nom d'utilisateur" required autofocus style="background:#f8fafc;border-radius:8px;">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" name="password" id="password" placeholder="Mot de passe" required style="background:#f8fafc;border-radius:8px;">
+      </div>
+      <input type="hidden" name="next" value="{{ request.GET.next }}" />
+      <input type="submit" value="Connexion" class="btn btn-info" style="border-radius:8px;" />
+    </form>
+    <div class="login-footer">
+      Vous n'avez pas de compte ? <a href="{% url 'users:register' %}">Inscrivez-vous</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

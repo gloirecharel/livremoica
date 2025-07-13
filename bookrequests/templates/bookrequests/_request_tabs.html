@@ -1,0 +1,81 @@
+<style>
+   body {
+    background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+    min-height: 100vh;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(120deg, rgba(16,28,58,0.68) 0%, rgba(44,62,80,0.62) 100%),
+      url('/static/img/livre.jpg') center center/cover no-repeat,
+      linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+    opacity: 1;
+    pointer-events: none;
+  }
+.custom-tabs {
+  background: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 0 10px;
+}
+.custom-tabs > li > a {
+  color: #337ab7;
+  font-weight: 500;
+  font-size: 1.08em;
+  border-radius: 8px 8px 0 0;
+  transition: background 0.2s, color 0.2s;
+  background: transparent;
+}
+.custom-tabs > li.active > a, .custom-tabs > li > a:hover {
+  background: #e7f1fa !important;
+  color: #23527c !important;
+  border: 1px solid #337ab7;
+  border-bottom: none;
+}
+.tab-content.custom-tab-content {
+  background: #fff;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 32px 24px 24px 24px;
+  border-top: none;
+  margin-bottom: 20px;
+  min-height: 120px;
+  animation: fadeIn 0.5s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.tab-pane p {
+  font-size: 1.15em;
+  color: #444;
+  margin: 0;
+  text-align: center;
+}
+</style>
+
+<ul class="nav nav-tabs custom-tabs" id="tabs">
+  <li class="active"><a href="#pending" data-toggle="tab"><span class="glyphicon glyphicon-time"></span> En attente</a></li>
+  <li><a href="#completed" data-toggle="tab"><span class="glyphicon glyphicon-ok"></span> Terminées</a></li>
+  <li><a href="#transit" data-toggle="tab"><span class="glyphicon glyphicon-send"></span> En transit</a></li>
+  <li><a href="#all" data-toggle="tab"><span class="glyphicon glyphicon-list-alt"></span> Toutes</a></li>
+</ul>
+
+<div class="tab-content custom-tab-content" style="margin-top: 0;">
+  <div class="tab-pane fade in active" id="pending">
+    <p>📌 Liste des demandes de livres en attente...</p>
+  </div>
+  <div class="tab-pane fade" id="completed">
+    <p>✅ Liste des livraisons ou retours terminés...</p>
+  </div>
+  <div class="tab-pane fade" id="transit">
+    <p>🚚 Livres actuellement en transit...</p>
+  </div>
+  <div class="tab-pane fade" id="all">
+    <p>📚 Toutes les demandes de livres et leurs statuts...</p>
+  </div>
+</div>
